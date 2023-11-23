@@ -18,15 +18,29 @@
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
+    "@asymmetrik/ngx-leaflet-draw": "^15.0.1",
+    "@opendatasoft/api-client": "^21.1.2",
+    "@types/ol": "^7.0.0",
+    "@types/proj4": "^2.5.5",
+    "file-system": "^2.2.2",
+    "ngx-bootstrap": "^10.3.0",
+    "ngx-bootstrap-icons": "^1.9.2",
+    "ngx-lightbox": "^3.0.0",
+    "ol": "^8.2.0",
+    "proj4": "^2.9.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "util": "^0.12.5",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.0.5",
     "@angular/cli": "~15.0.5",
     "@angular/compiler-cli": "^15.0.0",
+    "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~4.3.0",
+    "@types/leaflet": "^1.9.8",
+    "@types/leaflet-draw": "^1.0.10",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -34,5 +48,10 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
     "typescript": "~4.8.2"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

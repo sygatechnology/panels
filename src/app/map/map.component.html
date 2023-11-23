@@ -1,0 +1,10 @@
+<div 
+    class="map-container"
+    leaflet
+    [leafletOptions]="options"
+    (leafletMapReady)="onMapReady($event)"
+    leafletDraw
+    [leafletDrawOptions]="drawOptions"
+    (leafletDrawCreated)="onDrawCreated($event)">
+    <div [leafletLayer]="drawnItems"></div>
+</div>

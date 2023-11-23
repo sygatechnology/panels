@@ -1,0 +1,16 @@
+.map-container {
+    height: 100vh;
+}
+.list-group-item {
+    cursor: pointer;
+}
+.panel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.panel-container .panel-name-container {
+    position: relative;
+    top: 10px;
+    left: 5px;
+}
