@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import Feature from 'ol/Feature';
@@ -13,6 +13,7 @@ import { Draw, Modify, Snap, DragRotateAndZoom, defaults as defaultInteractions 
 import { PanelService } from 'src/app/services/panel.service';
 import Panel from "../classes/panel";
 import { Type } from 'ol/geom/Geometry';
+import jsPDF from 'jspdf';
 
 
 @Component({
@@ -26,6 +27,17 @@ export class OlComponent implements AfterViewInit {
   _panels!: Panel[];
   private _selectedPanel!: Panel|null;
   selectedType: string = "None";
+  @ViewChild("exportButton") exportButton!: ElementRef;
+  dims: any = {
+    "a0": [1189, 841],
+    "a1": [841, 594],
+    "a2": [594, 420],
+    "a3": [420, 297],
+    "a4": [297, 210],
+    "a5": [210, 148]
+  };
+  exportFormat: string = "a0";
+  exportResolution: string = "72";
   _source = new VectorSource();
   _vector = new VectorLayer({
     source: this._source,
@@ -159,6 +171,65 @@ export class OlComponent implements AfterViewInit {
   undo() {
     this._draw.removeLastPoint();
     this._draw.abortDrawing();
+  }
+
+  downloadPdf() {
+    try {
+      const _self = this;
+      this.exportButton.nativeElement.disabled = true;
+      document.body.style.cursor = 'progress';
+      const dim = this.dims[this.exportFormat];
+      const width = Math.round((dim[0] * Number(this.exportResolution)) / 25.4);
+      const height = Math.round((dim[1] * Number(this.exportResolution)) / 25.4);
+      const size = this.map.getSize();
+      const viewResolution = this.map.getView().getResolution();
+      this.map.once('rendercomplete', function () {
+        const mapCanvas = document.createElement('canvas');
+        mapCanvas.width = width;
+        mapCanvas.height = height;
+        const mapContext = mapCanvas.getContext('2d');
+        if(mapContext != null) {
+          Array.prototype.forEach.call(
+            document.querySelectorAll('.ol-layer canvas'),
+            function (canvas) {
+              if (canvas.width > 0) {
+                const opacity = canvas.parentNode.style.opacity;
+                mapContext.globalAlpha = opacity === '' ? 1 : Number(opacity);
+                const transform = canvas.style.transform;
+                // Get the transform parameters from the style's transform matrix
+                const matrix = transform
+                  .match(/^matrix\(([^\(]*)\)$/)[1]
+                  .split(',')
+                  .map(Number);
+                // Apply the transform to the export map context
+                CanvasRenderingContext2D.prototype.setTransform.apply(
+                  mapContext,
+                  matrix
+                );
+                mapContext.drawImage(canvas, 0, 0);
+              }
+            }
+          );
+          mapContext.globalAlpha = 1;
+          mapContext.setTransform(1, 0, 0, 1, 0, 0);
+          const pdf = new jsPDF('landscape', undefined, _self.exportFormat);
+          pdf.addImage(
+            mapCanvas.toDataURL('image/jpeg'),
+            'JPEG',
+            0,
+            0,
+            dim[0],
+            dim[1]
+          );
+          pdf.save('map.pdf');
+          // Reset original map size
+          _self.map.setSize(size);
+          _self.map.getView().setResolution(viewResolution);
+          _self.exportButton.nativeElement.disabled = false;
+          document.body.style.cursor = 'auto';
+        }
+      });
+    } catch(e){}
   }
 
 }
