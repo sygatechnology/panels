@@ -44,6 +44,37 @@
                 </ul>
             </div>
         </div>
+        <div class="card">
+            <div class="card-header">
+              <h5 class="mb-0">
+                Exporter
+              </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-auto">
+                      <span class="input-group">
+                        <select class="form-select" [(ngModel)]="exportFormat">
+                            <option value="a0">A0 (lent)</option>
+                            <option value="a1">A1</option>
+                            <option value="a2">A2</option>
+                            <option value="a3">A3</option>
+                            <option value="a4" selected>A4</option>
+                            <option value="a5">A5 (rapide)</option>
+                        </select>
+                        <select class="form-select" [(ngModel)]="exportResolution">
+                            <option value="72">72 dpi (lent)</option>
+                            <option value="150">150 dpi</option>
+                            <option value="300">300 dpi (rapide)</option>
+                          </select>
+                        <button (click)="downloadPdf()" #exportButton class="form-control" type="button">
+                            <i-bs style="position: relative; left: -7px; top: -2px;" name="download">
+                        </i-bs></button>
+                      </span>
+                    </div>
+                  </div>
+            </div>
+        </div>
     </div>
     <div class="col-10 pl-0">
         <div

@@ -23,6 +23,7 @@
     "@types/ol": "^7.0.0",
     "@types/proj4": "^2.5.5",
     "file-system": "^2.2.2",
+    "jspdf": "^2.5.1",
     "ngx-bootstrap": "^10.3.0",
     "ngx-bootstrap-icons": "^1.9.2",
     "ngx-lightbox": "^3.0.0",
