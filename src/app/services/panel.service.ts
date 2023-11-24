@@ -16,7 +16,7 @@ export class PanelService {
       new Panel("4-20.png", "Panneau 4"),
       new Panel("5-20.png", "Panneau 5")
     ].map(panel => panel
-        .setSrc("/assets/img/"+panel.getSrc())
+        .setSrc("assets/img/"+panel.getSrc())
         .setName(panel.getName())
     );
   }
